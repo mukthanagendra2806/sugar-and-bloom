@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sugar &amp; Bloom Bakery</title>
+<meta name="description" content="Sugar & Bloom is a boutique bakery making handcrafted cakes for life's sweetest moments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bottle: #1E3A2F;
+    --bottle-2: #2B4D3F;
+    --pistachio: #CFDDB8;
+    --pistachio-2: #E3EBD4;
+    --raspberry: #B42F5A;
+    --raspberry-dk: #962148;
+    --blush: #F6D3D6;
+    --sugar: #FFF7F5;
+    --ink: #1E3A2F;
+    --muted: #4F6559;
+
+    --display: "Caprasimo", "Cooper Black", Georgia, serif;
+    --body: "Hanken Grotesk", system-ui, sans-serif;
+
+    --r: 14px;            /* scallop radius */
+    --gutter: clamp(1rem, 4vw, 3.5rem);
+    --maxw: 1180px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--sugar);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+
+  :focus-visible { outline: 3px solid var(--raspberry); outline-offset: 3px; border-radius: 4px; }
+  .skip { position: absolute; left: -999px; top: 0; background: var(--sugar); padding: .75rem 1rem; z-index: 10; }
+  .skip:focus { left: 1rem; top: 1rem; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---------- Scalloped edges (piped buttercream) ---------- */
+  .scallop-top, .scallop-bottom { position: relative; }
+  .scallop-top::before, .scallop-bottom::after {
+    content: ""; position: absolute; left: 0; right: 0; height: var(--r);
+    background: radial-gradient(circle at 50% 100%, var(--edge) var(--r), transparent calc(var(--r) + .5px)) 0 0 / calc(var(--r) * 2) var(--r) repeat-x;
+    pointer-events: none;
+  }
+  .scallop-top::before { bottom: 100%; }
+  .scallop-bottom::after { top: 100%; transform: scaleY(-1); z-index: 1; }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    font: 600 1rem/1 var(--body);
+    padding: 1rem 1.6rem; border-radius: 999px; border: 2px solid transparent;
+    text-decoration: none; cursor: pointer;
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .btn-primary { background: var(--raspberry); color: var(--sugar); }
+  .btn-primary:hover { background: var(--raspberry-dk); }
+  .btn-ghost { background: transparent; color: inherit; border-color: currentColor; }
+  .btn-ghost:hover { background: var(--ink); color: var(--sugar); border-color: var(--ink); }
+
+  /* ---------- Nav ---------- */
+  .nav { background: var(--bottle); color: var(--sugar); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; max-width: none; }
+  .wordmark { font-family: var(--display); font-size: 1.4rem; text-decoration: none; }
+  .nav ul { list-style: none; display: flex; gap: clamp(1rem, 3vw, 2.25rem); margin: 0; padding: 0; }
+  .nav ul a { text-decoration: none; font-weight: 500; opacity: .85; }
+  .nav ul a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 5px; }
+  .nav .nav-order { color: var(--pistachio); opacity: 1; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 52%) 1fr;
+    min-height: clamp(600px, calc(100svh - 72px), 920px);
+    background: var(--blush) url("https://images.unsplash.com/photo-1535141192574-5d4897c12636?auto=format&fit=crop&w=1800&q=80") center 40% / cover no-repeat;
+  }
+  .hero-panel {
+    position: relative; z-index: 1;
+    background: var(--bottle); color: var(--sugar);
+    padding: clamp(3rem, 8vh, 6rem) calc(var(--gutter) + 1rem) clamp(3rem, 8vh, 5rem) var(--gutter);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero-panel::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 100%; width: var(--r);
+    background: radial-gradient(circle at 0 50%, var(--bottle) var(--r), transparent calc(var(--r) + .5px)) 0 0 / var(--r) calc(var(--r) * 2) repeat-y;
+  }
+  .hero h1 {
+    font-size: clamp(3.75rem, 9.5vw, 9rem);
+    line-height: .88;
+    letter-spacing: -0.025em;
+    color: var(--sugar);
+  }
+  .hero h1 span { display: block; }
+  .hero .tagline {
+    margin-top: 1.75rem; max-width: 22ch;
+    font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.35;
+    color: var(--pistachio);
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 2.5rem; }
+  .hero-actions .btn-ghost { color: var(--sugar); }
+  .hero-actions .btn-ghost:hover { background: var(--sugar); color: var(--bottle); border-color: var(--sugar); }
+  .hero-note { margin-top: 3rem; font-size: .95rem; color: rgba(255,247,245,.7); max-width: 36ch; }
+
+  /* page-load sequence: the one orchestrated moment */
+  .rise { opacity: 0; transform: translateY(18px); animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+  .rise:nth-child(1) { animation-delay: .05s; }
+  .rise:nth-child(2) { animation-delay: .25s; }
+  .rise:nth-child(3) { animation-delay: .4s; }
+  .rise:nth-child(4) { animation-delay: .55s; }
+  .hero h1 .rise:nth-child(2) { animation-delay: .15s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* ---------- Section heads ---------- */
+  .section { padding: clamp(5rem, 11vw, 8.5rem) 0; }
+  .section-head { max-width: 40rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .section-head h2 { font-size: clamp(2.5rem, 5.5vw, 4.25rem); }
+  .section-head p { margin-top: 1rem; font-size: 1.125rem; color: var(--muted); max-width: 52ch; }
+
+  /* ---------- Quiz ---------- */
+  .quiz { --edge: var(--pistachio); background: var(--pistachio); margin-top: var(--r); }
+  .quiz .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .quiz .section-head { margin-bottom: 0; position: sticky; top: 2rem; }
+  .quiz .section-head p { color: var(--bottle-2); }
+
+  .stage {
+    background: var(--sugar);
+    border-radius: 28px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    min-height: 500px;
+    display: flex; flex-direction: column;
+  }
+  .stage-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 2.25rem; min-height: 2.5rem; }
+  .progress { flex: 1; max-width: 220px; }
+  .progress-label { font-size: .9rem; color: var(--muted); margin-bottom: .45rem; }
+  .progress-track { height: 6px; border-radius: 6px; background: var(--pistachio-2); overflow: hidden; }
+  .progress-fill { height: 100%; width: 0; background: var(--raspberry); border-radius: inherit; transition: width .5s cubic-bezier(.2,.7,.2,1); }
+  .back {
+    font: 500 .95rem var(--body); color: var(--ink);
+    background: none; border: 0; padding: .5rem .25rem; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 4px;
+  }
+  .back[hidden] { display: none; }
+
+  .step { flex: 1; display: flex; flex-direction: column; }
+  .step h3 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 2rem; }
+  .options { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+  .opt {
+    width: 100%; display: flex; align-items: center; gap: 1rem;
+    font: 500 1.125rem/1.2 var(--body); color: var(--ink); text-align: left;
+    background: transparent;
+    border: 2px solid var(--pistachio); border-radius: 14px;
+    padding: .9rem 1.1rem; cursor: pointer;
+    transition: border-color .15s, background-color .15s, color .15s;
+  }
+  .opt:hover { border-color: var(--bottle); }
+  .opt kbd {
+    flex: none; display: grid; place-items: center;
+    width: 1.9rem; height: 1.9rem; border-radius: 8px;
+    font: 600 .85rem var(--body);
+    border: 1.5px solid currentColor; opacity: .6;
+  }
+  .opt[aria-pressed="true"] { background: var(--raspberry); border-color: var(--raspberry); color: var(--sugar); }
+  .opt[aria-pressed="true"] kbd { opacity: 1; }
+  .opt[aria-pressed="true"].chosen { animation: blink .32s steps(2) 1; }
+  @keyframes blink { 50% { background: var(--raspberry-dk); } }
+  .hint { margin-top: 1.5rem; font-size: .9rem; color: var(--muted); }
+
+  .result { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.25rem, 3vw, 2.25rem); align-items: start; }
+  .result-img {
+    aspect-ratio: 4 / 5; border-radius: 999px 999px 20px 20px; overflow: hidden;
+    background: var(--blush);
+  }
+  .result-img img { width: 100%; height: 100%; object-fit: cover; }
+  .result .kicker { font-size: 1rem; color: var(--muted); margin-bottom: .5rem; }
+  .result h3 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: .6rem; }
+  .result .format { font-weight: 600; margin-bottom: 1rem; }
+  .result .desc { color: var(--muted); margin-bottom: 1.25rem; }
+  .result .price { font-family: var(--display); font-size: 2rem; color: var(--raspberry); margin-bottom: 1.5rem; }
+  .result .price small { font-family: var(--body); font-size: .95rem; color: var(--muted); margin-left: .35rem; }
+  .result-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .result-actions .btn { padding: .9rem 1.3rem; }
+
+  /* ---------- Menu ---------- */
+  .menu { padding-top: clamp(6rem, 12vw, 9.5rem); }
+  .menu-list {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 6vw, 5.5rem); row-gap: clamp(2.25rem, 4vw, 3.25rem);
+  }
+  .dish { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+  .dish-img { width: 132px; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--blush); }
+  .dish-img img { width: 100%; height: 100%; object-fit: cover; }
+  .dish-line { display: flex; align-items: baseline; gap: .6rem; margin: .35rem 0 .5rem; }
+  .dish h3 { font-size: 1.45rem; }
+  .dish-line::after { content: ""; order: 2; flex: 1; border-bottom: 2px dotted var(--muted); opacity: .45; transform: translateY(-.3em); min-width: 1.5rem; }
+  .dish .price { order: 3; font-family: var(--display); font-size: 1.4rem; color: var(--raspberry); }
+  .dish p { color: var(--muted); max-width: 44ch; }
+  .menu-foot { margin-top: clamp(3rem, 6vw, 4.5rem); color: var(--muted); max-width: 60ch; }
+  .menu-foot a { color: var(--raspberry); font-weight: 600; }
+
+  /* ---------- Testimonials ---------- */
+  .reviews { padding-top: 0; }
+  .reviews-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1.25rem, 3vw, 2rem); }
+  .quote { margin: 0; border-radius: 28px; padding: clamp(1.75rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: space-between; gap: 1.75rem; }
+  .quote blockquote { margin: 0; }
+  .quote cite { font-style: normal; font-weight: 600; }
+  .quote cite span { display: block; font-weight: 400; color: var(--muted); }
+  .quote-lead { background: var(--blush); grid-row: span 2; }
+  .quote-lead blockquote { font-family: var(--display); font-size: clamp(1.7rem, 3.2vw, 2.6rem); line-height: 1.15; max-width: 24ch; }
+  .quote-lead blockquote::before { content: "\201C"; display: block; font-size: 5rem; line-height: .6; color: var(--raspberry); margin-bottom: .5rem; }
+  .quote-side { background: var(--pistachio-2); }
+  .quote-side blockquote { font-size: 1.2rem; line-height: 1.5; }
+
+  /* ---------- Order ---------- */
+  .order { --edge: var(--bottle); background: var(--bottle); color: var(--sugar); margin-top: var(--r); }
+  .order .wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+  .order .section-head p { color: var(--pistachio); }
+  .visit { margin-top: 2.5rem; display: grid; gap: 1.5rem; font-size: 1rem; }
+  .visit h3 { font-family: var(--body); font-weight: 600; font-size: 1rem; color: var(--pistachio); margin-bottom: .2rem; line-height: 1.4; }
+  .visit a { text-underline-offset: 4px; }
+
+  .form-card { background: var(--sugar); color: var(--ink); border-radius: 28px; padding: clamp(1.5rem, 4vw, 3rem); }
+  .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.25rem; }
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-weight: 600; font-size: .98rem; }
+  .field label .opt-tag { font-weight: 400; color: var(--muted); }
+  .field input, .field textarea {
+    font: 400 1rem/1.4 var(--body); color: var(--ink);
+    background: #fff; border: 2px solid var(--pistachio); border-radius: 12px;
+    padding: .8rem .95rem; width: 100%;
+    transition: border-color .15s;
+  }
+  .field textarea { min-height: 140px; resize: vertical; }
+  .field input:hover, .field textarea:hover { border-color: var(--muted); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--bottle); box-shadow: 0 0 0 3px var(--pistachio); }
+  .field .help { font-size: .88rem; color: var(--muted); }
+  .field .error { font-size: .88rem; color: var(--raspberry); font-weight: 500; min-height: 0; }
+  .field .error:empty { display: none; }
+  .field.invalid input, .field.invalid textarea { border-color: var(--raspberry); }
+  .form-foot { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .form-foot p { font-size: .92rem; color: var(--muted); max-width: 34ch; }
+
+  .sent { text-align: left; padding: 1rem 0; }
+  .sent h3 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: 1rem; }
+  .sent p { color: var(--muted); max-width: 46ch; margin-bottom: 1.5rem; }
+
+  /* ---------- Footer ---------- */
+  .footer { padding: 2.5rem 0; font-size: .95rem; color: var(--muted); }
+  .footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+  .footer .wordmark { color: var(--ink); font-size: 1.2rem; }
+
+  .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; grid-template-rows: clamp(260px, 42svh, 420px) auto; min-height: 0; background-position: center 30%; }
+    .hero-panel { grid-row: 2; padding: 3rem var(--gutter) 3.5rem; }
+    .hero-panel::after {
+      top: auto; bottom: 100%; left: 0; right: 0; width: auto; height: var(--r);
+      background: radial-gradient(circle at 50% 100%, var(--bottle) var(--r), transparent calc(var(--r) + .5px)) 0 0 / calc(var(--r) * 2) var(--r) repeat-x;
+    }
+    .quiz .wrap, .order .wrap { grid-template-columns: 1fr; }
+    .quiz .section-head { position: static; }
+    .menu-list { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .quote-lead { grid-row: auto; }
+  }
+  @media (max-width: 600px) {
+    .nav ul li:not(:last-child) { display: none; }
+    .stage { min-height: 460px; border-radius: 22px; }
+    .result { grid-template-columns: 1fr; }
+    .result-img { aspect-ratio: 16 / 11; border-radius: 999px 999px 16px 16px; }
+    .dish { grid-template-columns: 88px minmax(0, 1fr); gap: 1rem; }
+    .dish-img { width: 88px; }
+    .dish h3 { font-size: 1.35rem; }
+    .fields { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rise { animation: none; opacity: 1; transform: none; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="wordmark" href="#top">Sugar &amp; Bloom</a>
+    <ul>
+      <li><a href="#quiz">Find your cake</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a class="nav-order" href="#order">Order</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-panel">
+    <h1><span class="rise">Sugar &amp;</span><span class="rise">Bloom</span></h1>
+    <p class="tagline rise" style="animation-delay:.4s">Handcrafted cakes for life's sweetest moments</p>
+    <div class="hero-actions rise" style="animation-delay:.55s">
+      <a class="btn btn-primary" href="#quiz">Find your cake</a>
+      <a class="btn btn-ghost" href="#menu">See the menu</a>
+    </div>
+    <p class="hero-note rise" style="animation-delay:.7s">Every cake is baked to order in our Larkin Street kitchen. Give us three days' notice, or a few months for weddings.</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Quiz -->
+  <section class="quiz section scallop-top scallop-bottom" id="quiz" aria-labelledby="quiz-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="quiz-title">Not sure what to order?</h2>
+        <p>Answer three quick questions and we'll suggest a cake, a size and a price. You can use the letter keys to answer.</p>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="stage-top">
+          <div class="progress" id="progress">
+            <div class="progress-label" id="progress-label">Question 1 of 3</div>
+            <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+          </div>
+          <button class="back" id="back" type="button" hidden>Back</button>
+        </div>
+        <div id="step" class="step" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="menu section" id="menu" aria-labelledby="menu-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="menu-title">The menu</h2>
+        <p>Six cakes we bake every week. Prices are for a 6-inch cake that serves 10 to 12. Bigger sizes and tiers are available for any of them.</p>
+      </div>
+
+      <ul class="menu-list">
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&h=400&q=75" alt="Chocolate layer cake with a glossy ganache drip and piped rosettes"></div>
+          <div>
+            <div class="dish-line"><h3>Midnight Ganache</h3><span class="price">$68</span></div>
+            <p>Dark chocolate sponge, salted caramel and whipped ganache, finished with a mirror drip.</p>
+          </div>
+        </li>
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1586788680434-30d324b2d46f?auto=format&fit=crop&w=400&h=400&q=75" alt="Slice of red velvet cake with white cream cheese frosting"></div>
+          <div>
+            <div class="dish-line"><h3>Red Velvet</h3><span class="price">$64</span></div>
+            <p>Buttermilk cocoa sponge with a tangy cream cheese frosting. The recipe hasn't changed since we opened.</p>
+          </div>
+        </li>
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=400&h=400&q=75" alt="Slice of pale green layer cake topped with fresh raspberries"></div>
+          <div>
+            <div class="dish-line"><h3>Raspberry Pistachio</h3><span class="price">$72</span></div>
+            <p>Toasted pistachio sponge, raspberry compote and a light mascarpone cream.</p>
+          </div>
+        </li>
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?auto=format&fit=crop&w=400&h=400&q=75" alt="Pink drip cake covered in sprinkles on a pink cake stand"></div>
+          <div>
+            <div class="dish-line"><h3>Confetti Party</h3><span class="price">$66</span></div>
+            <p>Vanilla funfetti layers, strawberry buttercream and a pink drip. Candles are in the box.</p>
+          </div>
+        </li>
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=400&h=400&q=75" alt="Striped pink buttercream cake topped with pastel macarons"></div>
+          <div>
+            <div class="dish-line"><h3>Macaron Blush</h3><span class="price">$84</span></div>
+            <p>Madagascar vanilla bean sponge in Swiss meringue buttercream, crowned with our own macarons.</p>
+          </div>
+        </li>
+        <li class="dish">
+          <div class="dish-img"><img loading="lazy" src="https://images.unsplash.com/photo-1542826438-bd32f43d626f?auto=format&fit=crop&w=400&h=400&q=75" alt="Round mousse cake with a glossy orange glaze, strawberries and chocolate shards"></div>
+          <div>
+            <div class="dish-line"><h3>Citrus Mirror</h3><span class="price">$78</span></div>
+            <p>Lemon and elderflower mousse on an almond base, under a blood orange glaze.</p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="menu-foot">Need it gluten-free or vegan? Most of the menu can be adapted. Mention it in your <a href="#order">order request</a>.</p>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="reviews section" id="reviews" aria-labelledby="reviews-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="reviews-title">From people we've baked for</h2>
+      </div>
+      <div class="reviews-grid">
+        <figure class="quote quote-lead">
+          <blockquote>Our wedding cake was the one thing nobody had an opinion about. They were all too busy eating it.</blockquote>
+          <figcaption><cite>Priya &amp; Tom Adeyemi<span>Three-tier Citrus Mirror, June wedding</span></cite></figcaption>
+        </figure>
+        <figure class="quote quote-side">
+          <blockquote>I ordered the Midnight Ganache for my dad's 70th. He took the leftovers home, and he never shares.</blockquote>
+          <figcaption><cite>Marcus Lindqvist<span>Birthday</span></cite></figcaption>
+        </figure>
+        <figure class="quote quote-side">
+          <blockquote>They matched my daughter's favourite purple from one blurry photo. Small thing for them, huge deal for a six-year-old.</blockquote>
+          <figcaption><cite>Hannah Reyes<span>Birthday</span></cite></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Order -->
+  <section class="order section scallop-top" id="order" aria-labelledby="order-title">
+    <div class="wrap">
+      <div>
+        <div class="section-head">
+          <h2 id="order-title">Order a cake</h2>
+          <p>Tell us the date and what you have in mind. We reply within one business day with a quote and a sketch of your cake.</p>
+        </div>
+        <div class="visit">
+          <div>
+            <h3>Pickup</h3>
+            <p>412 Larkin Street<br>Tuesday to Saturday, 8am to 6pm</p>
+          </div>
+          <div>
+            <h3>Questions</h3>
+            <p><a href="tel:+15550148290">(555) 014-8290</a><br><a href="mailto:hello@sugarandbloom.example">hello@sugarandbloom.example</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card" id="form-card">
+        <form id="order-form" novalidate>
+          <div class="fields">
+            <div class="field">
+              <label for="f-name">Name</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name">
+              <span class="error" id="e-name"></span>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="e-phone">
+              <span class="error" id="e-phone"></span>
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email">
+              <span class="error" id="e-email"></span>
+            </div>
+            <div class="field">
+              <label for="f-date">Date needed</label>
+              <input id="f-date" name="date" type="date" required aria-describedby="h-date e-date">
+              <span class="help" id="h-date">At least 3 days from today</span>
+              <span class="error" id="e-date"></span>
+            </div>
+            <div class="field full">
+              <label for="f-message">Your cake <span class="opt-tag">(optional)</span></label>
+              <textarea id="f-message" name="message" placeholder="Flavour, size, how many guests, any colours or allergies"></textarea>
+            </div>
+          </div>
+          <div class="form-foot">
+            <p>No payment yet. We'll confirm the price with you first.</p>
+            <button class="btn btn-primary" type="submit">Send order request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <a class="wordmark" href="#top">Sugar &amp; Bloom</a>
+    <p>&copy; <span id="year"></span> Sugar &amp; Bloom Bakery, 412 Larkin Street</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const img = (id, w = 700) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&h=${Math.round(w * 1.2)}&q=75`;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Quiz data ---------- */
+  const questions = [
+    { key: 'occasion', text: "What's the occasion?", options: ['Birthday', 'Wedding', 'Anniversary', 'Just Because'] },
+    { key: 'flavor', text: "What's your flavor preference?", options: ['Chocolate', 'Vanilla', 'Red Velvet', 'Lemon', 'Surprise Me'] },
+    { key: 'budget', text: "What's your budget?", options: ['Under $50', '$50–$100', '$100–$200', '$200+'] }
+  ];
+
+  const cakes = {
+    'Chocolate':   { name: 'Midnight Ganache', base: 68, img: '1578985545062-69928b1d9587', cup: '1587668178277-295251f900ce',
+                     desc: 'Dark chocolate sponge, salted caramel and whipped ganache with a mirror drip.' },
+    'Vanilla':     { name: 'Macaron Blush', base: 84, img: '1562440499-64c9a111f713', cup: '1519869325930-281384150729',
+                     desc: 'Madagascar vanilla bean sponge in Swiss meringue buttercream.' },
+    'Red Velvet':  { name: 'Red Velvet', base: 64, img: '1586788680434-30d324b2d46f', cup: '1614707267537-b85aaf00c4b7',
+                     desc: 'Buttermilk cocoa sponge with our tangy cream cheese frosting.' },
+    'Lemon':       { name: 'Citrus Mirror', base: 78, img: '1542826438-bd32f43d626f', cup: '1486427944299-d1955d23e34d',
+                     desc: 'Lemon and elderflower mousse on an almond base, under a blood orange glaze.' },
+    'Surprise Me': { name: 'Raspberry Pistachio', base: 72, img: '1565958011703-44f9829ba187', cup: '1563729784474-d77dbb933a9e',
+                     desc: "The baker's pick this month: toasted pistachio sponge, raspberry compote and mascarpone cream." }
+  };
+
+  const finish = {
+    'Birthday': 'Finished with sprinkles, a piped name and candles in the box.',
+    'Wedding': 'Dressed in white buttercream and fresh garden flowers.',
+    'Anniversary': 'Finished with gold leaf and a hand-piped message.',
+    'Just Because': 'Kept simple, with fresh fruit on top.'
+  };
+
+  const round = n => Math.round(n / 2) * 2;
+
+  function recommend({ occasion, flavor, budget }) {
+    const c = cakes[flavor];
+    const wedding = occasion === 'Wedding';
+    let format, serves, price, from = false, pic = c.img;
+
+    if (budget === 'Under $50') {
+      if (wedding) {
+        format = 'Wedding tasting box'; serves = 'Six flavors for two, to choose your cake';
+        price = 38; pic = '1571115177098-24ec42ed204d';
+      } else {
+        format = 'A dozen cupcakes'; serves = 'Serves 12'; price = 44; pic = c.cup;
+      }
+    } else if (budget === '$50–$100') {
+      format = wedding ? '6-inch cutting cake' : '6-inch, three layers';
+      serves = 'Serves 10 to 12'; price = c.base + (wedding ? 12 : 0);
+    } else if (budget === '$100–$200') {
+      format = '8-inch, four layers'; serves = 'Serves 20 to 24';
+      price = round(c.base * 1.9 + (wedding ? 16 : 0));
+    } else {
+      if (wedding) {
+        format = 'Three-tier wedding cake'; serves = 'Serves 60 to 70';
+        price = round(c.base * 5.5); from = true; pic = '1535141192574-5d4897c12636';
+      } else {
+        format = 'Two-tier cake'; serves = 'Serves 40 to 50'; price = round(c.base * 3.8);
+      }
+    }
+    return { ...c, format, serves, price, from, pic, occasion, flavor, desc: `${c.desc} ${finish[occasion]}` };
+  }
+
+  /* ---------- Quiz UI ---------- */
+  const stepEl = document.getElementById('step');
+  const backBtn = document.getElementById('back');
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label');
+  const progress = document.getElementById('progress');
+  const answers = {};
+  let index = 0, busy = false, dir = 1;
+
+  function transition(render) {
+    if (reduced || !stepEl.firstChild) { render(); return Promise.resolve(); }
+    busy = true;
+    const out = stepEl.animate(
+      [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: `translateY(${-24 * dir}px)` }],
+      { duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' }
+    );
+    return out.finished.then(() => {
+      render();
+      out.cancel();
+      return stepEl.animate(
+        [{ opacity: 0, transform: `translateY(${32 * dir}px)` }, { opacity: 1, transform: 'none' }],
+        { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' }
+      ).finished;
+    }).finally(() => { busy = false; });
+  }
+
+  function renderQuestion() {
+    const q = questions[index];
+    const letters = 'ABCDE';
+    progress.style.visibility = 'visible';
+    label.textContent = `Question ${index + 1} of ${questions.length}`;
+    fill.style.width = `${(index / questions.length) * 100}%`;
+    backBtn.hidden = index === 0;
+
+    stepEl.innerHTML = `
+      <h3 id="q-title" tabindex="-1">${q.text}</h3>
+      <ul class="options" role="list" aria-labelledby="q-title">
+        ${q.options.map((o, i) => `
+          <li><button type="button" class="opt" data-value="${o}" aria-pressed="${answers[q.key] === o}">
+            <kbd aria-hidden="true">${letters[i]}</kbd>${o}
+          </button></li>`).join('')}
+      </ul>
+      <p class="hint">Press ${letters[0]}&ndash;${letters[q.options.length - 1]} to choose.</p>`;
+  }
+
+  function renderResult() {
+    const r = recommend(answers);
+    label.textContent = 'Your cake';
+    fill.style.width = '100%';
+    backBtn.hidden = false;
+
+    stepEl.innerHTML = `
+      <div class="result">
+        <div class="result-img"><img src="${img(r.pic)}" alt="${r.name} cake"></div>
+        <div>
+          <p class="kicker">${r.occasion === 'Just Because' ? 'For a treat, just because' : 'For your ' + r.occasion.toLowerCase()}, we'd bake</p>
+          <h3 id="q-title" tabindex="-1">${r.name}</h3>
+          <p class="format">${r.format}. ${r.serves}.</p>
+          <p class="desc">${r.desc}</p>
+          <p class="price">${r.from ? 'From ' : ''}$${r.price}<small>estimate</small></p>
+          <div class="result-actions">
+            <button type="button" class="btn btn-primary" id="order-this">Order this cake</button>
+            <button type="button" class="btn btn-ghost" id="restart">Start over</button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('order-this').addEventListener('click', () => {
+      const msg = document.getElementById('f-message');
+      msg.value = `I'd like the ${r.name}, ${r.format.charAt(0).toLowerCase() + r.format.slice(1)}, for a ${r.occasion === 'Just Because' ? 'treat' : r.occasion.toLowerCase()}.`;
+      document.getElementById('order').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+      setTimeout(() => document.getElementById('f-name').focus({ preventScroll: true }), reduced ? 0 : 600);
+    });
+    document.getElementById('restart').addEventListener('click', () => {
+      for (const k in answers) delete answers[k];
+      go(0, -1);
+    });
+  }
+
+  function go(next, direction = 1) {
+    if (busy) return;
+    dir = direction;
+    index = next;
+    transition(index < questions.length ? renderQuestion : renderResult)
+      .then(() => { const t = document.getElementById('q-title'); if (t && document.activeElement !== document.body) t.focus({ preventScroll: true }); });
+  }
+
+  function choose(btn) {
+    if (busy || index >= questions.length) return;
+    answers[questions[index].key] = btn.dataset.value;
+    stepEl.querySelectorAll('.opt').forEach(b => b.setAttribute('aria-pressed', b === btn));
+    btn.classList.add('chosen');
+    busy = true;
+    setTimeout(() => { busy = false; go(index + 1, 1); }, reduced ? 0 : 340);
+  }
+
+  stepEl.addEventListener('click', e => {
+    const btn = e.target.closest('.opt');
+    if (btn) choose(btn);
+  });
+
+  backBtn.addEventListener('click', () => { if (index > 0) go(index - 1, -1); });
+
+  // Letter-key shortcuts while the quiz is on screen
+  const quizSection = document.getElementById('quiz');
+  let quizVisible = false;
+  new IntersectionObserver(([e]) => { quizVisible = e.intersectionRatio > 0.4; }, { threshold: [0, 0.4, 1] }).observe(quizSection);
+
+  document.addEventListener('keydown', e => {
+    if (!quizVisible || index >= questions.length || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+    const i = 'ABCDE'.indexOf(e.key.toUpperCase());
+    const opts = stepEl.querySelectorAll('.opt');
+    if (i > -1 && opts[i]) { e.preventDefault(); choose(opts[i]); }
+  });
+
+  renderQuestion();
+
+  /* ---------- Order form ---------- */
+  const form = document.getElementById('order-form');
+  const dateInput = document.getElementById('f-date');
+  const earliest = new Date();
+  earliest.setDate(earliest.getDate() + 3);
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  dateInput.min = iso(earliest);
+
+  const rules = {
+    name: v => v.trim() ? '' : 'Enter your name.',
+    email: v => !v.trim() ? 'Enter your email so we can send your quote.'
+      : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.',
+    phone: v => v.replace(/\D/g, '').length >= 7 ? '' : 'Enter a phone number with at least 7 digits.',
+    date: v => !v ? 'Choose the date you need the cake.'
+      : v < dateInput.min ? `We need 3 days' notice. Choose ${new Date(dateInput.min + 'T00:00').toLocaleDateString(undefined, { month: 'long', day: 'numeric' })} or later.` : ''
+  };
+
+  function check(name) {
+    const input = form.elements[name];
+    const msg = rules[name](input.value);
+    const field = input.closest('.field');
+    field.classList.toggle('invalid', !!msg);
+    input.setAttribute('aria-invalid', !!msg);
+    field.querySelector('.error').textContent = msg;
+    return !msg;
+  }
+
+  Object.keys(rules).forEach(name => {
+    const input = form.elements[name];
+    input.addEventListener('blur', () => { if (input.value) check(name); });
+    input.addEventListener('input', () => { if (input.closest('.field').classList.contains('invalid')) check(name); });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = Object.keys(rules).filter(n => !check(n));
+    if (bad.length) { form.elements[bad[0]].focus(); return; }
+
+    const data = Object.fromEntries(new FormData(form));
+    const when = new Date(data.date + 'T00:00').toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+    const card = document.getElementById('form-card');
+    const first = data.name.trim().split(/\s+/)[0];
+    const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    card.innerHTML = `
+      <div class="sent" role="status">
+        <h3 tabindex="-1" id="sent-title">Order request sent</h3>
+        <p>Thanks, ${esc(first)}. We'll email <strong>${esc(data.email.trim())}</strong> within one business day with a quote for ${when}.</p>
+        <button type="button" class="btn btn-ghost" id="another">Send another request</button>
+      </div>`;
+    document.getElementById('sent-title').focus();
+    document.getElementById('another').addEventListener('click', () => location.reload());
+  });
+
+  /* ---------- Image fallback: keep the blush placeholder if a photo fails ---------- */
+  document.addEventListener('error', e => {
+    if (e.target.tagName === 'IMG') e.target.style.visibility = 'hidden';
+  }, true);
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
